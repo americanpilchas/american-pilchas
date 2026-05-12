@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>American Pilchas - Catálogo</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Lato',sans-serif;background:#f9f6f0;}
+
+/* HEADER */
+.ap-header{background:#1a5c2a;color:#f5f0e8;padding:1.2rem 1rem 1rem;text-align:center;border-bottom:3px solid #c9a96e;}
+.ap-logo{font-family:'Playfair Display',serif;font-size:26px;font-weight:600;letter-spacing:3px;text-transform:uppercase;}
+.ap-tagline{font-size:10px;letter-spacing:4px;color:#c9a96e;margin-top:4px;text-transform:uppercase;}
+.ap-envio{background:#c9a96e;color:white;text-align:center;padding:7px;font-size:10px;letter-spacing:2px;text-transform:uppercase;}
+
+/* MODO TOGGLE */
+.modo-bar{background:#fff;border-bottom:2px solid #e0d5c5;display:flex;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,0.07);}
+.modo-btn{flex:1;padding:13px 8px;font-family:'Lato',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;border:none;cursor:pointer;transition:all 0.25s;background:#fff;color:#aaa;border-bottom:3px solid transparent;}
+.modo-btn.active{color:#1a5c2a;border-bottom-color:#1a5c2a;background:#f5faf6;}
+.modo-btn .modo-icon{font-size:16px;display:block;margin-bottom:3px;}
+
+/* NAV CATEGORÍAS */
+.nav-wrapper{display:none;}
+.nav-wrapper.visible{display:block;}
+.nav-principal{background:#1a5c2a;display:flex;justify-content:center;flex-wrap:wrap;border-bottom:2px solid #c9a96e;}
+.nav-btn{background:transparent;border:none;color:#c8e6c9;padding:12px 14px;font-size:11px;font-family:'Lato',sans-serif;letter-spacing:2px;text-transform:uppercase;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all 0.2s;font-weight:700;}
+.nav-btn:hover,.nav-btn.active{color:#c9a96e;border-bottom-color:#c9a96e;}
+.submenu{background:#2d7a3a;display:none;flex-wrap:wrap;gap:6px;padding:10px 16px;border-bottom:2px solid #1a5c2a;}
+.submenu.visible{display:flex;}
+.sub-btn{background:transparent;border:1.5px solid #a5d6a7;color:#fff;padding:5px 12px;border-radius:20px;font-size:12px;font-family:'Lato',sans-serif;letter-spacing:1px;text-transform:uppercase;cursor:pointer;font-weight:700;transition:all 0.2s;}
+.sub-btn:hover,.sub-btn.active{background:#c9a96e;color:white;border-color:#c9a96e;}
+.submenu2{background:#1e6b30;display:none;flex-wrap:wrap;gap:6px;padding:8px 16px;border-bottom:2px solid #155224;}
+.submenu2.visible{display:flex;}
+.sub2-btn{background:transparent;border:1.5px solid #81c784;color:#e8f5e9;padding:4px 12px;border-radius:20px;font-size:11px;font-family:'Lato',sans-serif;letter-spacing:1px;text-transform:uppercase;cursor:pointer;font-weight:700;transition:all 0.2s;}
+.sub2-btn:hover,.sub2-btn.active{background:#c9a96e;color:white;border-color:#c9a96e;}
+.breadcrumb{padding:10px 16px;font-size:11px;color:#888;background:#f9f6f0;border-bottom:0.5px solid #e0d5c5;letter-spacing:1px;}
+.breadcrumb span{color:#1a5c2a;font-weight:700;}
+
+/* VIDRIERA */
+.vidriera-wrapper{display:none;}
+.vidriera-wrapper.visible{display:block;}
+.vidriera-nuevo{background:linear-gradient(135deg,#1a5c2a 60%,#2d7a3a);padding:1.2rem 1rem 0.5rem;}
+.vidriera-nuevo-titulo{font-family:'Playfair Display',serif;color:#c9a96e;font-size:15px;letter-spacing:3px;text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.vidriera-nuevo-titulo::after{content:'';flex:1;height:1px;background:rgba(201,169,110,0.3);}
+.badge-nuevo-titulo{background:#c9a96e;color:white;font-size:8px;padding:2px 7px;letter-spacing:1px;text-transform:uppercase;border-radius:10px;}
+.vidriera-mix-titulo{padding:1rem 1rem 0.5rem;font-family:'Playfair Display',serif;color:#1a5c2a;font-size:15px;letter-spacing:2px;display:flex;align-items:center;gap:8px;}
+.vidriera-mix-titulo::after{content:'';flex:1;height:1px;background:#e0d5c5;}
+
+/* GRIDS */
+.ap-grid{padding:0.8rem;display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:12px;}
+.ap-grid-nuevo{padding:0 0 1rem;display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:12px;}
+
+/* CARD */
+.ap-card{background:white;border:0.5px solid #e0d5c5;border-radius:4px;overflow:hidden;transition:transform 0.2s,box-shadow 0.2s;}
+.ap-card:hover{transform:translateY(-3px);box-shadow:0 6px 20px rgba(0,0,0,0.12);}
+
+/* CARRUSEL dentro de la card */
+.car-wrap{width:100%;aspect-ratio:3/4;position:relative;overflow:hidden;background:#f5f0e8;cursor:pointer;}
+.car-wrap img{width:100%;height:100%;object-fit:cover;position:absolute;top:0;left:0;opacity:0;transition:opacity 0.3s;}
+.car-wrap img.active{opacity:1;}
+.car-btn{position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,0,0,0.4);color:white;border:none;font-size:16px;width:26px;height:36px;cursor:pointer;z-index:5;display:flex;align-items:center;justify-content:center;transition:background 0.2s;}
+.car-btn:hover{background:rgba(201,169,110,0.85);}
+.car-prev{left:0;border-radius:0 3px 3px 0;}
+.car-next{right:0;border-radius:3px 0 0 3px;}
+.car-btn.hidden{display:none;}
+.car-dots{position:absolute;bottom:6px;left:50%;transform:translateX(-50%);display:flex;gap:4px;z-index:5;}
+.car-dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,0.5);transition:background 0.2s;}
+.car-dot.active{background:#c9a96e;}
+.ap-badge{position:absolute;top:8px;left:8px;background:#c9a96e;color:white;font-size:9px;padding:3px 8px;letter-spacing:1px;text-transform:uppercase;z-index:6;}
+.ap-badge-cat{position:absolute;top:8px;left:8px;background:rgba(26,92,42,0.85);color:#fff;font-size:8px;padding:3px 7px;letter-spacing:1px;text-transform:uppercase;z-index:6;border-radius:2px;}
+.car-info-pill{position:absolute;bottom:6px;right:6px;background:rgba(0,0,0,0.6);color:white;font-size:8px;padding:2px 7px;border-radius:10px;z-index:6;letter-spacing:0.5px;max-width:90px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+
+/* INFO DE CARD */
+.ap-card-info{padding:9px 11px;border-top:0.5px solid #e0d5c5;}
+.ap-card-cat{font-size:10px;color:#1a5c2a;letter-spacing:1px;text-transform:uppercase;margin-bottom:5px;font-weight:700;}
+
+/* TALLES PILLS */
+.talles-row{display:flex;flex-wrap:wrap;gap:3px;margin-bottom:6px;}
+.talle-pill{background:#f0f0f0;color:#444;font-size:9px;padding:2px 6px;border-radius:10px;font-weight:700;letter-spacing:0.5px;}
+
+/* PRECIOS */
+.ap-precios{display:flex;gap:5px;margin-bottom:7px;align-items:stretch;}
+.ap-precio-box{flex:1;border-radius:3px;padding:4px 3px;text-align:center;}
+.ap-precio-transf{background:#e8f5e9;border:1px solid #a5d6a7;}
+.ap-precio-tarjeta{background:#fdf6ee;border:1px solid #e8d5b0;}
+.ap-precio-label{font-size:7.5px;letter-spacing:1px;text-transform:uppercase;font-weight:700;margin-bottom:2px;}
+.ap-precio-transf .ap-precio-label{color:#1a5c2a;}
+.ap-precio-tarjeta .ap-precio-label{color:#b8860b;}
+.ap-precio-valor{font-family:'Playfair Display',serif;font-size:13px;font-weight:600;line-height:1;}
+.ap-precio-transf .ap-precio-valor{color:#1a5c2a;}
+.ap-precio-tarjeta .ap-precio-valor{color:#b8860b;}
+.ap-precio-sin{font-size:9px;color:#bbb;font-style:italic;margin-bottom:6px;}
+.ap-card-cta{display:block;background:#25d366;color:white;text-align:center;padding:7px;font-size:10px;letter-spacing:1px;text-transform:uppercase;border-radius:2px;text-decoration:none;}
+.ap-card-cta:hover{background:#1ebe57;}
+
+/* Loading / vacío */
+.vacio{padding:3rem;text-align:center;color:#aaa;font-size:13px;line-height:1.8;}
+.loading{padding:3rem;text-align:center;color:#1a5c2a;font-size:13px;}
+.loading-spinner{display:inline-block;width:24px;height:24px;border:2px solid #c9a96e;border-top-color:#1a5c2a;border-radius:50%;animation:spin 0.8s linear infinite;margin-bottom:10px;}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* MODAL */
+.modal-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.88);z-index:1000;justify-content:center;align-items:center;}
+.modal-overlay.open{display:flex;}
+.modal-box{background:white;width:92%;max-width:460px;max-height:94vh;overflow-y:auto;border-radius:6px;position:relative;}
+.modal-close{position:absolute;top:10px;right:12px;background:rgba(0,0,0,0.45);border:none;font-size:18px;cursor:pointer;color:white;z-index:10;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;}
+.modal-close:hover{background:#c9a96e;}
+
+/* CARRUSEL MODAL */
+.modal-car{position:relative;width:100%;aspect-ratio:3/4;overflow:hidden;background:#f5f0e8;}
+.modal-car img{width:100%;height:100%;object-fit:cover;position:absolute;top:0;left:0;opacity:0;transition:opacity 0.3s;}
+.modal-car img.active{opacity:1;}
+.modal-car-btn{position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,0,0,0.4);color:white;border:none;font-size:20px;width:34px;height:48px;cursor:pointer;z-index:5;display:flex;align-items:center;justify-content:center;}
+.modal-car-btn:hover{background:rgba(201,169,110,0.85);}
+.modal-car-prev{left:0;border-radius:0 4px 4px 0;}
+.modal-car-next{right:0;border-radius:4px 0 0 4px;}
+.modal-car-btn.hidden{display:none;}
+.modal-car-dots{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);display:flex;gap:5px;z-index:5;}
+.modal-car-dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,0.5);cursor:pointer;transition:background 0.2s;}
+.modal-car-dot.active{background:#c9a96e;}
+
+/* INFO MODAL */
+.modal-info{padding:14px 16px;}
+.modal-nombre{font-family:'Playfair Display',serif;font-size:18px;color:#1a1a1a;margin-bottom:6px;}
+.modal-variante{font-size:12px;color:#1a5c2a;font-weight:700;margin-bottom:8px;min-height:18px;}
+.modal-talles-label{font-size:10px;color:#888;letter-spacing:1px;text-transform:uppercase;margin-bottom:5px;font-weight:700;}
+.modal-talles-row{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:10px;}
+.modal-talle-pill{background:#f0f0f0;color:#333;font-size:11px;padding:3px 9px;border-radius:12px;font-weight:700;}
+.modal-precios{display:flex;gap:8px;margin-bottom:12px;}
+.modal-precio-box{flex:1;border-radius:4px;padding:8px 6px;text-align:center;}
+.modal-precio-transf{background:#e8f5e9;border:1px solid #a5d6a7;}
+.modal-precio-tarjeta{background:#fdf6ee;border:1px solid #e8d5b0;}
+.modal-precio-label{font-size:9px;letter-spacing:1px;text-transform:uppercase;font-weight:700;margin-bottom:3px;}
+.modal-precio-transf .modal-precio-label{color:#1a5c2a;}
+.modal-precio-tarjeta .modal-precio-label{color:#b8860b;}
+.modal-precio-valor{font-family:'Playfair Display',serif;font-size:18px;font-weight:600;}
+.modal-precio-transf .modal-precio-valor{color:#1a5c2a;}
+.modal-precio-tarjeta .modal-precio-valor{color:#b8860b;}
+.modal-precio-sin{font-size:11px;color:#aaa;font-style:italic;margin-bottom:10px;}
+.modal-wa{display:block;background:#25d366;color:white;text-align:center;padding:13px;font-size:11px;letter-spacing:2px;text-transform:uppercase;border-radius:3px;text-decoration:none;}
+.modal-wa:hover{background:#1ebe57;}
+
+/* BUSCADOR */
+.buscador-bar{background:#fff;border-bottom:2px solid #e0d5c5;padding:10px 12px;position:sticky;top:0;z-index:99;box-shadow:0 2px 8px rgba(0,0,0,0.06);}
+.buscador-inner{display:flex;align-items:center;gap:8px;background:#f5f0e8;border:1.5px solid #e0d5c5;border-radius:4px;padding:0 12px;transition:border-color 0.2s;}
+.buscador-inner:focus-within{border-color:#1a5c2a;}
+.buscador-icono{color:#1a5c2a;font-size:15px;flex-shrink:0;}
+.buscador-input{flex:1;border:none;background:transparent;padding:10px 0;font-family:'Lato',sans-serif;font-size:14px;color:#333;outline:none;}
+.buscador-input::placeholder{color:#bbb;font-size:12px;}
+.buscador-clear{background:none;border:none;color:#bbb;font-size:18px;cursor:pointer;padding:0 2px;display:none;line-height:1;}
+.buscador-clear.visible{display:block;}
+.buscador-chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;}
+.buscador-chip{background:#f0f0f0;border:none;color:#666;font-family:'Lato',sans-serif;font-size:10px;font-weight:700;letter-spacing:1px;padding:4px 10px;border-radius:20px;cursor:pointer;transition:all 0.18s;}
+.buscador-chip:hover{background:#1a5c2a;color:#fff;}
+
+/* RESULTADOS BÚSQUEDA */
+.busq-wrapper{display:none;}
+.busq-wrapper.visible{display:block;}
+.busq-header{padding:10px 14px 4px;display:flex;align-items:center;justify-content:space-between;}
+.busq-count{font-size:11px;color:#888;letter-spacing:1px;}
+.busq-count strong{color:#1a5c2a;}
+.busq-volver{background:none;border:none;color:#1a5c2a;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;font-family:'Lato',sans-serif;}
+
+/* SECCIONES VIDRIERA */
+.vsec{border-bottom:6px solid #f0ebe0;}
+.vsec-destacada{background:linear-gradient(160deg,#1a5c2a 0%,#2d7a3a 100%);}
+.vsec-promo{background:#fdf6ee;}
+.vsec-header{padding:1.1rem 1rem 0.4rem;}
+.vsec-header-nuevo{padding:1.1rem 1rem 0.4rem;}
+.vsec-header-promo{border-left:4px solid #c9a96e;margin:0.8rem 1rem 0;padding:0.5rem 0.8rem;}
+.vsec-titulo{font-family:'Playfair Display',serif;font-size:16px;font-weight:600;color:#1a1a1a;display:flex;align-items:center;gap:8px;letter-spacing:0.5px;}
+.vsec-destacada .vsec-titulo{color:#c9a96e;}
+.vsec-promo .vsec-titulo{color:#b8860b;}
+.vsec-subtitulo{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:#999;margin-top:3px;padding-left:2px;}
+.vsec-destacada .vsec-subtitulo{color:rgba(245,240,232,0.6);}
+.vsec-promo .vsec-subtitulo{color:#b8860b;opacity:0.75;}
+.vsec-vacio{padding:1.5rem 1rem;text-align:center;font-size:11px;color:#bbb;letter-spacing:1px;}
+
+/* HERO */
+.ap-hero{background:linear-gradient(160deg,#1a5c2a 0%,#2d7a3a 55%,#1e6b30 100%);padding:2rem 1.2rem 1.8rem;text-align:center;position:relative;overflow:hidden;}
+.ap-hero::before{content:'';position:absolute;top:-30px;right:-30px;width:160px;height:160px;border-radius:50%;background:rgba(201,169,110,0.08);pointer-events:none;}
+.ap-hero::after{content:'';position:absolute;bottom:-40px;left:-20px;width:120px;height:120px;border-radius:50%;background:rgba(201,169,110,0.06);pointer-events:none;}
+.ap-hero-temporada{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:#c9a96e;margin-bottom:8px;font-weight:700;}
+.ap-hero-titulo{font-family:'Playfair Display',serif;font-size:22px;color:#f5f0e8;line-height:1.25;margin-bottom:8px;font-weight:600;}
+.ap-hero-titulo em{color:#c9a96e;font-style:normal;}
+.ap-hero-subtitulo{font-size:11px;color:rgba(245,240,232,0.75);letter-spacing:1px;line-height:1.6;margin-bottom:6px;}
+.ap-hero-cats{font-size:10px;color:#c9a96e;letter-spacing:2px;text-transform:uppercase;margin-bottom:18px;font-weight:700;}
+.ap-hero-wa-hint{font-size:10px;color:rgba(245,240,232,0.6);margin-bottom:16px;line-height:1.5;}
+.ap-hero-wa-hint strong{color:rgba(245,240,232,0.9);}
+.ap-hero-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+.ap-hero-btn{display:inline-flex;align-items:center;gap:6px;padding:11px 20px;border-radius:3px;font-family:'Lato',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;border:none;cursor:pointer;transition:all 0.22s;text-decoration:none;}
+.ap-hero-btn-nuevo{background:#c9a96e;color:white;}
+.ap-hero-btn-nuevo:hover{background:#b8935a;transform:translateY(-1px);box-shadow:0 4px 14px rgba(201,169,110,0.4);}
+.ap-hero-btn-buscar{background:transparent;color:#f5f0e8;border:1.5px solid rgba(245,240,232,0.45);}
+.ap-hero-btn-buscar:hover{border-color:#c9a96e;color:#c9a96e;transform:translateY(-1px);}
+.ap-hero-divider{height:3px;background:linear-gradient(90deg,#c9a96e 0%,#e8d5b0 50%,#c9a96e 100%);}
+
+/* INFO TIENDA */
+.ap-info{background:#fff;border-top:3px solid #e0d5c5;}
+.ap-info-titulo{background:#1a5c2a;color:#c9a96e;font-family:'Playfair Display',serif;font-size:14px;letter-spacing:2px;text-transform:uppercase;padding:14px 16px;display:flex;align-items:center;gap:8px;}
+.ap-info-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;border-top:1px solid #e0d5c5;}
+.ap-info-item{padding:14px 16px;border-bottom:1px solid #f0ebe0;border-right:1px solid #f0ebe0;}
+.ap-info-item:nth-child(even){border-right:none;}
+.ap-info-item-full{padding:14px 16px;border-bottom:1px solid #f0ebe0;grid-column:1/-1;}
+.ap-info-icono{font-size:18px;margin-bottom:5px;}
+.ap-info-label{font-size:9px;letter-spacing:2px;text-transform:uppercase;font-weight:700;color:#1a5c2a;margin-bottom:4px;}
+.ap-info-valor{font-size:12px;color:#444;line-height:1.5;}
+.ap-info-valor strong{color:#1a1a1a;font-weight:700;}
+.ap-info-cambios{font-size:11px;color:#666;line-height:1.6;background:#f9f6f0;border-left:3px solid #c9a96e;padding:10px 12px;border-radius:2px;margin-top:6px;}
+
+/* FOOTER */
+.ap-footer{background:#1a5c2a;color:#f5f0e8;text-align:center;padding:1.5rem;font-size:12px;}
+.ap-footer a{color:#c9a96e;text-decoration:none;}
+.ap-footer-wa{display:inline-block;margin-top:10px;background:#25d366;color:white;padding:10px 24px;border-radius:2px;font-size:11px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;}
+.ap-footer-wa:hover{background:#1ebe57;}
+.instruccion-buscar{padding:2.5rem 1.5rem;text-align:center;color:#bbb;font-size:12px;letter-spacing:1px;line-height:1.9;}
+.instruccion-buscar .flecha{font-size:20px;display:block;margin-bottom:8px;}
+</style>
+</head>
+<body>
+
+<div class="ap-header">
+  <div class="ap-logo">American Pilchas</div>
+  <div class="ap-tagline">Vestirse no debería ser un problema</div>
+</div>
+<div class="ap-envio">✨ Envíos a toda la zona · Charata, Chaco</div>
+
+<!-- HERO -->
+<div class="ap-hero">
+  <div class="ap-hero-temporada">✦ Nueva temporada ✦</div>
+  <div class="ap-hero-titulo">Ropa para toda<br>la <em>familia</em></div>
+  <div class="ap-hero-cats">Mujer · Hombre · Teens · Niños</div>
+  <div class="ap-hero-wa-hint">Consultá <strong>talles, colores y disponibilidad</strong><br>por WhatsApp — te respondemos al toque 💬</div>
+  <div class="ap-hero-btns">
+    <button class="ap-hero-btn ap-hero-btn-nuevo" onclick="irANuevoIngreso()">✨ Ver nuevo ingreso</button>
+    <button class="ap-hero-btn ap-hero-btn-buscar" onclick="irABuscar()">🔍 Buscar por categoría</button>
+  </div>
+</div>
+<div class="ap-hero-divider"></div>
+
+<!-- BUSCADOR -->
+<div class="buscador-bar" id="buscador-bar">
+  <div class="buscador-inner">
+    <span class="buscador-icono">🔍</span>
+    <input class="buscador-input" id="buscador-input" type="search" placeholder='Buscá prenda, talle o categoría… "jean", "buzo", "talle 44", "niña"' autocomplete="off" oninput="onBuscar(this.value)">
+    <button class="buscador-clear" id="buscador-clear" onclick="limpiarBusqueda()">✕</button>
+  </div>
+  <div class="buscador-chips">
+    <button class="buscador-chip" onclick="buscarChip('jean')">jean</button>
+    <button class="buscador-chip" onclick="buscarChip('buzo')">buzo</button>
+    <button class="buscador-chip" onclick="buscarChip('campera')">campera</button>
+    <button class="buscador-chip" onclick="buscarChip('niña')">niña</button>
+    <button class="buscador-chip" onclick="buscarChip('talle 44')">talle 44</button>
+    <button class="buscador-chip" onclick="buscarChip('mujer')">mujer</button>
+    <button class="buscador-chip" onclick="buscarChip('nuevo')">nuevo ingreso</button>
+  </div>
+</div>
+
+<!-- RESULTADOS BÚSQUEDA -->
+<div class="busq-wrapper" id="busq-wrapper">
+  <div class="busq-header">
+    <div class="busq-count" id="busq-count"></div>
+    <button class="busq-volver" onclick="limpiarBusqueda()">✕ Ver todo</button>
+  </div>
+  <div class="ap-grid" id="busq-grid"></div>
+</div>
+
+<!-- BARRA MODO -->
+<div class="modo-bar">
+  <button class="modo-btn active" id="btn-modo-vidriera" onclick="setModo('vidriera')">
+    <span class="modo-icon">🛍️</span>VER TODO
+  </button>
+  <button class="modo-btn" id="btn-modo-buscar" onclick="setModo('buscar')">
+    <span class="modo-icon">🔍</span>BUSCAR POR CATEGORÍA
+  </button>
+</div>
+
+<!-- MODO BUSCAR -->
+<div class="nav-wrapper" id="nav-wrapper">
+  <div class="nav-principal">
+    <button class="nav-btn" onclick="setSeccion('mujer',this)">Mujer</button>
+    <button class="nav-btn" onclick="setSeccion('hombre',this)">Hombre</button>
+    <button class="nav-btn" onclick="setSeccion('ninos',this)">Niños</button>
+    <button class="nav-btn" onclick="setSeccion('teens',this)">Teens</button>
+    <button class="nav-btn" onclick="setSeccion('ninas',this)">Niñas</button>
+    <button class="nav-btn" onclick="setSeccion('mallas',this)">Mallas</button>
+    <button class="nav-btn" onclick="setSeccion('shortbano',this)">Short de baño</button>
+    <button class="nav-btn" onclick="setSeccion('deportiva',this)">Ropa deportiva</button>
+    <button class="nav-btn" onclick="setSeccion('medias',this)">Medias</button>
+    <button class="nav-btn" onclick="setSeccion('pantuflas',this)">Pantuflas</button>
+    <button class="nav-btn" onclick="setSeccion('nuevo',this)">Nuevo ingreso</button>
+  </div>
+  <div class="submenu" id="sub-mujer">
+    <button class="sub-btn" onclick="setInvierno('mujer',this)">Invierno</button>
+    <button class="sub-btn" onclick="setRubro('mujer-verano',this)">Verano</button>
+    <button class="sub-btn" onclick="setRubro('mujer-jeans',this)">Jeans</button>
+    <button class="sub-btn" onclick="setRubro('mujer-pantalon',this)">Pantalón de vestir</button>
+    <button class="sub-btn" onclick="setRubro('mujer-interior',this)">Ropa interior</button>
+    <button class="sub-btn" onclick="setRubro('mujer-fiesta',this)">Fiesta</button>
+    <button class="sub-btn" onclick="setRubro('mujer-blazer',this)">Blazer</button>
+  </div>
+  <div class="submenu" id="sub-hombre">
+    <button class="sub-btn" onclick="setInvierno('hombre',this)">Invierno</button>
+    <button class="sub-btn" onclick="setRubro('hombre-verano',this)">Verano</button>
+    <button class="sub-btn" onclick="setRubro('hombre-jeans',this)">Jeans</button>
+    <button class="sub-btn" onclick="setRubro('hombre-camisas',this)">Camisas</button>
+    <button class="sub-btn" onclick="setRubro('hombre-sacos',this)">Sacos</button>
+  </div>
+  <div class="submenu" id="sub-ninos">
+    <button class="sub-btn" onclick="setInvierno('ninos',this)">Invierno</button>
+    <button class="sub-btn" onclick="setRubro('ninos-nene',this)">Nene</button>
+    <button class="sub-btn" onclick="setRubro('ninos-nina',this)">Niña</button>
+    <button class="sub-btn" onclick="setRubro('ninos-jeans',this)">Jeans nene y niña</button>
+  </div>
+  <div class="submenu" id="sub-teens">
+    <button class="sub-btn" onclick="setTeensInvierno(this)">Invierno</button>
+    <button class="sub-btn" onclick="setTeensVerano(this)">Verano</button>
+    <button class="sub-btn" onclick="setRubro('teens-jeans-mujer',this)">Jeans mujer</button>
+    <button class="sub-btn" onclick="setRubro('teens-jeans-hombre',this)">Jeans hombre</button>
+    <button class="sub-btn" onclick="setRubro('teens-fiesta',this)">Fiesta</button>
+  </div>
+  <div class="submenu" id="sub-ninas">
+    <button class="sub-btn" onclick="setInvierno('ninas',this)">Invierno</button>
+    <button class="sub-btn" onclick="setRubro('ninas-verano',this)">Verano</button>
+    <button class="sub-btn" onclick="setRubro('ninas-jeans',this)">Jeans</button>
+    <button class="sub-btn" onclick="setRubro('ninas-fiesta',this)">Fiesta</button>
+  </div>
+  <div class="submenu" id="sub-mallas">
+    <button class="sub-btn" onclick="setRubro('mallas-dama',this)">Dama</button>
+    <button class="sub-btn" onclick="setRubro('mallas-teens',this)">Teens</button>
+    <button class="sub-btn" onclick="setRubro('mallas-ninas',this)">Niñas</button>
+  </div>
+  <div class="submenu" id="sub-shortbano">
+    <button class="sub-btn" onclick="setRubro('shortbano-hombre',this)">Hombre</button>
+    <button class="sub-btn" onclick="setRubro('shortbano-ninos',this)">Niños</button>
+  </div>
+  <div class="submenu" id="sub-deportiva">
+    <button class="sub-btn" onclick="setRubro('deportiva-mujer',this)">Mujer</button>
+    <button class="sub-btn" onclick="setRubro('deportiva-hombre',this)">Hombre</button>
+  </div>
+  <div class="submenu" id="sub-medias">
+    <button class="sub-btn" onclick="setRubro('medias-mujer',this)">Mujer</button>
+    <button class="sub-btn" onclick="setRubro('medias-hombre',this)">Hombre</button>
+    <button class="sub-btn" onclick="setRubro('medias-ninos',this)">Niños</button>
+  </div>
+  <div class="submenu" id="sub-pantuflas">
+    <button class="sub-btn" onclick="setRubro('pantuflas-mujer',this)">Mujer</button>
+    <button class="sub-btn" onclick="setRubro('pantuflas-hombre',this)">Hombre</button>
+    <button class="sub-btn" onclick="setRubro('pantuflas-ninos',this)">Niños</button>
+  </div>
+  <div class="submenu2" id="sub2-mujer">
+    <button class="sub2-btn" onclick="setRubro('mujer-inv-buzos',this)">Buzos</button>
+    <button class="sub2-btn" onclick="setRubro('mujer-inv-remeras',this)">Remeras m/larga</button>
+    <button class="sub2-btn" onclick="setRubro('mujer-inv-camperas',this)">Camperas</button>
+    <button class="sub2-btn" onclick="setRubro('mujer-inv-sweaters',this)">Sweaters</button>
+  </div>
+  <div class="submenu2" id="sub2-hombre">
+    <button class="sub2-btn" onclick="setRubro('hombre-inv-buzos',this)">Buzos</button>
+    <button class="sub2-btn" onclick="setRubro('hombre-inv-remeras',this)">Remeras m/larga</button>
+    <button class="sub2-btn" onclick="setRubro('hombre-inv-camperas',this)">Camperas</button>
+    <button class="sub2-btn" onclick="setRubro('hombre-inv-sweaters',this)">Sweaters</button>
+  </div>
+  <div class="submenu2" id="sub2-teens-invierno">
+    <button class="sub2-btn" onclick="setRubro('teens-inv-buzos',this)">Buzos</button>
+    <button class="sub2-btn" onclick="setRubro('teens-inv-remeras-dama',this)">Remeras dama</button>
+    <button class="sub2-btn" onclick="setRubro('teens-inv-remeras-varon',this)">Remeras varón</button>
+    <button class="sub2-btn" onclick="setRubro('teens-inv-camperas',this)">Camperas</button>
+    <button class="sub2-btn" onclick="setRubro('teens-inv-sweaters',this)">Sweaters</button>
+  </div>
+  <div class="submenu2" id="sub2-teens-verano">
+    <button class="sub2-btn" onclick="setRubro('teens-ver-remeras-dama',this)">Remeras dama</button>
+    <button class="sub2-btn" onclick="setRubro('teens-ver-remeras-varon',this)">Remeras varón</button>
+    <button class="sub2-btn" onclick="setRubro('teens-ver-short',this)">Short</button>
+    <button class="sub2-btn" onclick="setRubro('teens-ver-bermudas',this)">Bermudas</button>
+  </div>
+  <div class="submenu2" id="sub2-ninas">
+    <button class="sub2-btn" onclick="setRubro('ninas-inv-buzos',this)">Buzos</button>
+    <button class="sub2-btn" onclick="setRubro('ninas-inv-remeras',this)">Remeras m/larga</button>
+    <button class="sub2-btn" onclick="setRubro('ninas-inv-camperas',this)">Camperas</button>
+    <button class="sub2-btn" onclick="setRubro('ninas-inv-sweaters',this)">Sweaters</button>
+  </div>
+  <div class="submenu2" id="sub2-ninos">
+    <button class="sub2-btn" onclick="setRubro('ninos-inv-buzos',this)">Buzos</button>
+    <button class="sub2-btn" onclick="setRubro('ninos-inv-remeras',this)">Remeras m/larga</button>
+    <button class="sub2-btn" onclick="setRubro('ninos-inv-camperas',this)">Camperas</button>
+    <button class="sub2-btn" onclick="setRubro('ninos-inv-sweaters',this)">Sweaters</button>
+  </div>
+  <div class="breadcrumb" id="breadcrumb" style="display:none;">
+    American Pilchas › <span id="bc-text"></span>
+  </div>
+  <div id="contenido">
+    <div class="instruccion-buscar"><span class="flecha">☝️</span>Elegí una categoría arriba para ver las prendas</div>
+  </div>
+</div>
+
+<!-- MODO VIDRIERA -->
+<div class="vidriera-wrapper visible" id="vidriera-wrapper">
+
+  <!-- NUEVO INGRESO -->
+  <div class="vsec vsec-destacada" id="vsec-nuevo">
+    <div class="vsec-header vsec-header-nuevo">
+      <div class="vsec-titulo">✨ Nuevo ingreso <span class="badge-nuevo-titulo">HOT</span></div>
+      <div class="vsec-subtitulo">Lo que acaba de llegar</div>
+    </div>
+    <div class="ap-grid-nuevo" id="grid-nuevo">
+      <div class="loading"><div class="loading-spinner"></div><br>Cargando novedades...</div>
+    </div>
+  </div>
+
+  <!-- MÁS CONSULTADOS -->
+  <div class="vsec" id="vsec-consultados">
+    <div class="vsec-header">
+      <div class="vsec-titulo">🔥 Más consultados</div>
+      <div class="vsec-subtitulo">Los favoritos de la temporada</div>
+    </div>
+    <div class="ap-grid" id="grid-consultados">
+      <div class="loading"><div class="loading-spinner"></div><br>Cargando...</div>
+    </div>
+  </div>
+
+  <!-- MUJER -->
+  <div class="vsec" id="vsec-mujer">
+    <div class="vsec-header">
+      <div class="vsec-titulo">👗 Mujer</div>
+      <div class="vsec-subtitulo">Buzos, camperas, jeans, vestidos y más</div>
+    </div>
+    <div class="ap-grid" id="grid-mujer">
+      <div class="loading"><div class="loading-spinner"></div><br>Cargando...</div>
+    </div>
+  </div>
+
+  <!-- HOMBRE -->
+  <div class="vsec" id="vsec-hombre">
+    <div class="vsec-header">
+      <div class="vsec-titulo">👔 Hombre</div>
+      <div class="vsec-subtitulo">Buzos, camisas, jeans y más</div>
+    </div>
+    <div class="ap-grid" id="grid-hombre">
+      <div class="loading"><div class="loading-spinner"></div><br>Cargando...</div>
+    </div>
+  </div>
+
+  <!-- NIÑOS -->
+  <div class="vsec" id="vsec-ninos">
+    <div class="vsec-header">
+      <div class="vsec-titulo">🧒 Niños</div>
+      <div class="vsec-subtitulo">Nene, niña, teens y niñas</div>
+    </div>
+    <div class="ap-grid" id="grid-ninos">
+      <div class="loading"><div class="loading-spinner"></div><br>Cargando...</div>
+    </div>
+  </div>
+
+  <!-- OPORTUNIDADES -->
+  <div class="vsec vsec-promo" id="vsec-promos">
+    <div class="vsec-header vsec-header-promo">
+      <div class="vsec-titulo">💸 Oportunidades</div>
+      <div class="vsec-subtitulo">Promos especiales · Consultá disponibilidad</div>
+    </div>
+    <div class="ap-grid" id="grid-promos">
+      <div class="loading"><div class="loading-spinner"></div><br>Cargando...</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal" onclick="cerrarModal(event)">
+  <div class="modal-box">
+    <button class="modal-close" onclick="document.getElementById('modal').classList.remove('open')">✕</button>
+    <div class="modal-car" id="modal-car">
+      <!-- imágenes se insertan por JS -->
+    </div>
+    <div class="modal-car-dots" id="modal-car-dots" style="position:relative;padding:8px 0 4px;background:#f9f6f0;justify-content:center;display:flex;gap:5px;"></div>
+    <div class="modal-info">
+      <div class="modal-nombre" id="modal-nombre"></div>
+      <div class="modal-variante" id="modal-variante"></div>
+      <div class="modal-talles-label" id="modal-talles-label" style="display:none">Talles disponibles</div>
+      <div class="modal-talles-row" id="modal-talles-row"></div>
+      <div id="modal-precios"></div>
+      <a class="modal-wa" id="modal-wa" href="#" target="_blank">Consultar por WhatsApp</a>
+    </div>
+  </div>
+</div>
+
+<!-- INFO TIENDA -->
+<div class="ap-info">
+  <div class="ap-info-titulo">ℹ️ Información de la tienda</div>
+  <div class="ap-info-grid">
+
+    <div class="ap-info-item">
+      <div class="ap-info-icono">🕐</div>
+      <div class="ap-info-label">Horarios</div>
+      <div class="ap-info-valor">
+        <strong>Lun a Sáb</strong><br>
+        8:00 a 12:00<br>
+        17:00 a 21:00
+      </div>
+    </div>
+
+    <div class="ap-info-item">
+      <div class="ap-info-icono">💳</div>
+      <div class="ap-info-label">Formas de pago</div>
+      <div class="ap-info-valor">
+        💵 Efectivo<br>
+        📲 Transferencia<br>
+        💳 Tarjeta de crédito
+      </div>
+    </div>
+
+    <div class="ap-info-item">
+      <div class="ap-info-icono">📦</div>
+      <div class="ap-info-label">Envíos y retiro</div>
+      <div class="ap-info-valor">
+        🏪 Retiro en local<br>
+        🚗 Envíos a localidades cercanas<br>
+        <span style="font-size:10px;color:#888;">Consultá por WhatsApp</span>
+      </div>
+    </div>
+
+    <div class="ap-info-item">
+      <div class="ap-info-icono">📍</div>
+      <div class="ap-info-label">Ubicación</div>
+      <div class="ap-info-valor">
+        <strong>Charata, Chaco</strong><br>
+        <span style="font-size:10px;color:#888;">Consultanos la dirección por WhatsApp</span>
+      </div>
+    </div>
+
+    <div class="ap-info-item-full">
+      <div class="ap-info-icono">🔄</div>
+      <div class="ap-info-label">Cambios y devoluciones</div>
+      <div class="ap-info-cambios">
+        Se aceptan cambios dentro de los <strong>7 días</strong> de la compra, con el producto sin uso y con ticket.<br>
+        No se realizan devoluciones de dinero — se ofrece cambio por otra prenda o crédito para la próxima compra.<br>
+        <span style="color:#1a5c2a;font-weight:700;">¿Dudas con el talle? Consultanos antes de comprar 💬</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="ap-footer">
+  <div>📍 Charata, Chaco · <a href="https://instagram.com/American_Pilchas.moda" target="_blank">@American_Pilchas.moda</a></div>
+  <div style="margin-top:4px;">¿Te gustó algo? Consultanos sin compromiso</div>
+  <div class="ap-footer-wa" onclick="abrirWA('Hola! Vi el catálogo y quiero consultar')">Escribinos por WhatsApp</div>
+</div>
+
+<script>
+const WA = '543731498954';
+const SHEET_URL = 'https://script.google.com/macros/s/AKfycbwcPRqWSLhPiElbxKD6niZDHTjU2sc2ZlY6OKnTYUtY-6NmG81o_CcyHm9j7e6Za-xt_Q/exec';
+
+const rubrosInfo = {
+  'mujer-inv-buzos':'mujer-buzos','mujer-inv-remeras':'mujer-remeras','mujer-inv-camperas':'mujer-camperas',
+  'mujer-inv-sweaters':'mujer-sweaters','mujer-verano':'mujer-verano','mujer-jeans':'mujer-jeans',
+  'mujer-pantalon':'mujer-pantalon','mujer-interior':'mujer-interior','mujer-fiesta':'mujer-fiesta',
+  'mujer-blazer':'mujer-blazer','hombre-inv-buzos':'hombre-buzos','hombre-inv-remeras':'hombre-remeras',
+  'hombre-inv-camperas':'hombre-camperas','hombre-inv-sweaters':'hombre-sweaters','hombre-verano':'hombre-verano',
+  'hombre-jeans':'hombre-jeans','hombre-camisas':'hombre-camisas','hombre-sacos':'hombre-sacos',
+  'ninos-inv-buzos':'ninos-buzos','ninos-inv-remeras':'ninos-remeras','ninos-inv-camperas':'ninos-camperas',
+  'ninos-inv-sweaters':'ninos-sweaters','ninos-nene':'ninos-nene','ninos-nina':'ninos-nina','ninos-jeans':'ninos-jeans',
+  'teens-inv-buzos':'teens-buzos','teens-inv-remeras-dama':'teens-remeras-dama','teens-inv-remeras-varon':'teens-remeras-varon',
+  'teens-inv-camperas':'teens-camperas','teens-inv-sweaters':'teens-sweaters','teens-ver-remeras-dama':'teens-remeras-dama',
+  'teens-ver-remeras-varon':'teens-remeras-varon','teens-ver-short':'teens-short','teens-ver-bermudas':'teens-bermudas',
+  'teens-jeans-mujer':'teens-jeans-mujer','teens-jeans-hombre':'teens-jeans-hombre','teens-fiesta':'teens-fiesta',
+  'ninas-inv-buzos':'ninas-buzos','ninas-inv-remeras':'ninas-remeras','ninas-inv-camperas':'ninas-camperas',
+  'ninas-inv-sweaters':'ninas-sweaters','ninas-verano':'ninas-verano','ninas-jeans':'ninas-jeans','ninas-fiesta':'ninas-fiesta',
+  'mallas-dama':'mallas-dama','mallas-teens':'mallas-teens','mallas-ninas':'mallas-ninas',
+  'shortbano-hombre':'shortbano-hombre','shortbano-ninos':'shortbano-ninos',
+  'deportiva-mujer':'deportiva-mujer','deportiva-hombre':'deportiva-hombre',
+  'medias-mujer':'medias-mujer','medias-hombre':'medias-hombre','medias-ninos':'medias-ninos',
+  'pantuflas-mujer':'pantuflas-mujer','pantuflas-hombre':'pantuflas-hombre','pantuflas-ninos':'pantuflas-ninos',
+};
+
+const catLabels = {
+  'mujer-buzos':'Mujer · Buzos','mujer-remeras':'Mujer · Remeras','mujer-camperas':'Mujer · Camperas',
+  'mujer-sweaters':'Mujer · Sweaters','mujer-verano':'Mujer · Verano','mujer-jeans':'Mujer · Jeans',
+  'mujer-pantalon':'Mujer · Pantalón','mujer-interior':'Mujer · Interior','mujer-fiesta':'Mujer · Fiesta',
+  'mujer-blazer':'Mujer · Blazer','hombre-buzos':'Hombre · Buzos','hombre-remeras':'Hombre · Remeras',
+  'hombre-camperas':'Hombre · Camperas','hombre-sweaters':'Hombre · Sweaters','hombre-verano':'Hombre · Verano',
+  'hombre-jeans':'Hombre · Jeans','hombre-camisas':'Hombre · Camisas','hombre-sacos':'Hombre · Sacos',
+  'ninos-buzos':'Niños · Buzos','ninos-remeras':'Niños · Remeras','ninos-camperas':'Niños · Camperas',
+  'ninos-sweaters':'Niños · Sweaters','ninos-nene':'Niños · Nene','ninos-nina':'Niños · Niña','ninos-jeans':'Niños · Jeans',
+  'teens-buzos':'Teens · Buzos','teens-remeras-dama':'Teens · Remeras dama','teens-remeras-varon':'Teens · Remeras varón',
+  'teens-camperas':'Teens · Camperas','teens-sweaters':'Teens · Sweaters','teens-short':'Teens · Short',
+  'teens-bermudas':'Teens · Bermudas','teens-jeans-mujer':'Teens · Jeans mujer','teens-jeans-hombre':'Teens · Jeans hombre',
+  'teens-fiesta':'Teens · Fiesta','ninas-buzos':'Niñas · Buzos','ninas-remeras':'Niñas · Remeras',
+  'ninas-camperas':'Niñas · Camperas','ninas-sweaters':'Niñas · Sweaters','ninas-verano':'Niñas · Verano',
+  'ninas-jeans':'Niñas · Jeans','ninas-fiesta':'Niñas · Fiesta','mallas-dama':'Mallas · Dama',
+  'mallas-teens':'Mallas · Teens','mallas-ninas':'Mallas · Niñas','shortbano-hombre':'Short baño · Hombre',
+  'shortbano-ninos':'Short baño · Niños','deportiva-mujer':'Deportiva · Mujer','deportiva-hombre':'Deportiva · Hombre',
+  'medias-mujer':'Medias · Mujer','medias-hombre':'Medias · Hombre','medias-ninos':'Medias · Niños',
+  'pantuflas-mujer':'Pantuflas · Mujer','pantuflas-hombre':'Pantuflas · Hombre','pantuflas-ninos':'Pantuflas · Niños',
+};
+
+let todosLosDatos = null;
+
+/* ====== DATA ====== */
+async function cargarPlanilla() {
+  if (todosLosDatos) return todosLosDatos;
+  try {
+    const res = await fetch(SHEET_URL);
+    if (!res.ok) throw new Error();
+    const rows = await res.json(); // Apps Script devuelve array directo
+    todosLosDatos = rows.map(r => ({
+      categoria: (r.categoria || '').toString().trim().toLowerCase(),
+      grupo:     (r.grupo     || '').toString().trim(),
+      imagen:    normalizarImagen((r.imagen    || '').toString().trim()),
+      p_transf:  r.p_transf  ?? null,
+      p_tarjeta: r.p_tarjeta ?? null,
+      talle:     (r.talle    || '').toString().trim(),
+      color:     (r.color    || '').toString().trim(),
+    })).filter(r => r.categoria && r.imagen);
+    return todosLosDatos;
+  } catch(e) { todosLosDatos = []; return []; }
+}
+
+/* ====== NORMALIZAR URL DE IMAGEN ====== */
+function normalizarImagen(url) {
+  if (!url) return '';
+  url = String(url).trim();
+  if (url.match(/\.(jpg|jpeg|png|webp|gif)(\?.*)?$/i)) return url;
+  if (url.includes('googleusercontent.com')) return url;
+  let id = null;
+  const matchFile = url.match(/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/);
+  if (matchFile) id = matchFile[1];
+  const matchId = url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+  if (!id && matchId) id = matchId[1];
+  const matchOpen = url.match(/drive\.google\.com\/open\?id=([a-zA-Z0-9_-]+)/);
+  if (!id && matchOpen) id = matchOpen[1];
+  if (id) return `https://drive.google.com/thumbnail?id=${id}&sz=w1000`;
+  return url;
+}
+function agrupar(items) {
+  const map = new Map();
+  items.forEach(r => {
+    const key = r.grupo || r.imagen; // si no tiene grupo, cada foto es su propia card
+    if (!map.has(key)) map.set(key, []);
+    map.get(key).push(r);
+  });
+  return Array.from(map.values());
+}
+
+async function getGrupos(categoria) {
+  const datos = await cargarPlanilla();
+  const filtered = datos.filter(r => r.categoria === categoria);
+  return agrupar(filtered);
+}
+
+/* ====== HELPERS ====== */
+function fmtPrecio(v) {
+  if (v === null || v === undefined || v === '') return null;
+  const n = parseFloat(String(v).replace(/[^0-9.,]/g,'').replace(',','.'));
+  if (isNaN(n)) return null;
+  return '$' + n.toLocaleString('es-AR', {minimumFractionDigits:0, maximumFractionDigits:0});
+}
+
+function preciosHTMLCard(grupo) {
+  // Toma precio del primer item del grupo (todos deberían tener el mismo)
+  const pT = fmtPrecio(grupo[0].p_transf), pK = fmtPrecio(grupo[0].p_tarjeta);
+  if (!pT && !pK) return `<div class="ap-precio-sin">Consultá precio por WhatsApp</div>`;
+  return `<div class="ap-precios">
+    <div class="ap-precio-box ap-precio-transf"><div class="ap-precio-label">💸 Ef./Transf.</div><div class="ap-precio-valor">${pT||'—'}</div></div>
+    <div class="ap-precio-box ap-precio-tarjeta"><div class="ap-precio-label">💳 Tarjeta</div><div class="ap-precio-valor">${pK||'—'}</div></div>
+  </div>`;
+}
+
+function tallesHTMLCard(grupo) {
+  const talles = [...new Set(grupo.map(r => r.talle).filter(Boolean))];
+  if (!talles.length) return '';
+  return `<div class="talles-row">${talles.map(t => `<span class="talle-pill">T${t}</span>`).join('')}</div>`;
+}
+
+function variantePill(item) {
+  const parts = [];
+  if (item.talle) parts.push(`T${item.talle}`);
+  if (item.color) parts.push(item.color);
+  return parts.join(' · ');
+}
+
+/* ====== CARD CON CARRUSEL ====== */
+let cardCount = 0;
+function cardHTML(grupo, label, esNuevo) {
+  const id = 'card-' + (cardCount++);
+  const fotos = grupo.map(r => r.imagen);
+  const badge = esNuevo
+    ? `<div class="ap-badge">Nuevo</div>`
+    : `<div class="ap-badge-cat">${label}</div>`;
+  const multiplesFotos = fotos.length > 1;
+  const imgsHTML = fotos.map((f, i) =>
+    `<img src="${f}" class="${i===0?'active':''}" alt="${label} ${i+1}" loading="lazy" referrerpolicy="no-referrer">`
+  ).join('');
+  const dotsHTML = multiplesFotos
+    ? fotos.map((_,i) => `<span class="car-dot${i===0?' active':''}"></span>`).join('')
+    : '';
+  const primeraVariante = variantePill(grupo[0]);
+  const nombre = grupo[0].grupo || label;
+  const tallesCard = [...new Set(grupo.map(r => r.talle).filter(Boolean))];
+  const coloresCard = [...new Set(grupo.map(r => r.color).filter(Boolean))];
+  const tallesStr = tallesCard.length ? `, talle${tallesCard.length>1?'s':''} ${tallesCard.join('/')}` : '';
+  const colorStr = coloresCard.length === 1 ? `, color ${coloresCard[0]}` : '';
+  const msg = encodeURIComponent(`Hola! Vi este producto en el catálogo: ${nombre}${colorStr}${tallesStr}. ¿Está disponible?`);
+  const grupoEnc = encodeURIComponent(JSON.stringify(grupo));
+
+  return `<div class="ap-card">
+    <div class="car-wrap" id="${id}" onclick="abrirModalGrupo('${encodeURIComponent(JSON.stringify(grupo))}','${encodeURIComponent(label)}',0)">
+      ${badge}
+      ${imgsHTML}
+      ${multiplesFotos ? `
+      <button class="car-btn car-prev hidden" onclick="event.stopPropagation();moverCar('${id}',-1)">‹</button>
+      <button class="car-btn car-next" onclick="event.stopPropagation();moverCar('${id}',1)">›</button>
+      <div class="car-dots">${dotsHTML}</div>` : ''}
+      ${primeraVariante ? `<div class="car-info-pill" id="${id}-pill">${primeraVariante}</div>` : ''}
+    </div>
+    <div class="ap-card-info">
+      <div class="ap-card-cat">${label}</div>
+      ${tallesHTMLCard(grupo)}
+      ${preciosHTMLCard(grupo)}
+      <a class="ap-card-cta" href="https://wa.me/${WA}?text=${msg}" target="_blank" onclick="event.stopPropagation()">Consultar por WhatsApp</a>
+    </div>
+  </div>`;
+}
+
+function moverCar(id, dir) {
+  const wrap = document.getElementById(id);
+  if (!wrap) return;
+  const imgs = wrap.querySelectorAll('img');
+  const dots = wrap.querySelectorAll('.car-dot');
+  const pill = document.getElementById(id + '-pill');
+  let curr = Array.from(imgs).findIndex(i => i.classList.contains('active'));
+  imgs[curr].classList.remove('active');
+  if (dots[curr]) dots[curr].classList.remove('active');
+  curr = (curr + dir + imgs.length) % imgs.length;
+  imgs[curr].classList.add('active');
+  if (dots[curr]) dots[curr].classList.add('active');
+  wrap.querySelector('.car-prev')?.classList.toggle('hidden', curr === 0);
+  wrap.querySelector('.car-next')?.classList.toggle('hidden', curr === imgs.length - 1);
+}
+
+/* ====== MODAL ====== */
+let _modalGrupo = [], _modalLabel = '', _modalIdx = 0;
+
+function abrirModalGrupo(grupoEnc, labelEnc, startIdx) {
+  _modalGrupo = JSON.parse(decodeURIComponent(grupoEnc));
+  _modalLabel = decodeURIComponent(labelEnc);
+  _modalIdx = startIdx || 0;
+  renderModal(_modalIdx);
+  document.getElementById('modal').classList.add('open');
+}
+
+function renderModal(idx) {
+  _modalIdx = idx;
+  const grupo = _modalGrupo;
+  const label = _modalLabel;
+
+  // Imágenes carrusel modal
+  const carEl = document.getElementById('modal-car');
+  const dotsEl = document.getElementById('modal-car-dots');
+  carEl.innerHTML = '';
+  dotsEl.innerHTML = '';
+
+  // Botones
+  const prevBtn = document.createElement('button');
+  prevBtn.className = 'modal-car-btn modal-car-prev' + (idx === 0 ? ' hidden' : '');
+  prevBtn.innerHTML = '‹';
+  prevBtn.onclick = () => renderModal(_modalIdx - 1);
+
+  const nextBtn = document.createElement('button');
+  nextBtn.className = 'modal-car-btn modal-car-next' + (idx === grupo.length - 1 ? ' hidden' : '');
+  nextBtn.innerHTML = '›';
+  nextBtn.onclick = () => renderModal(_modalIdx + 1);
+
+  grupo.forEach((item, i) => {
+    const img = document.createElement('img');
+    img.src = item.imagen;
+    img.alt = label;
+    if (i === idx) img.classList.add('active');
+    carEl.appendChild(img);
+  });
+  carEl.appendChild(prevBtn);
+  carEl.appendChild(nextBtn);
+
+  // Dots
+  if (grupo.length > 1) {
+    grupo.forEach((_, i) => {
+      const dot = document.createElement('span');
+      dot.className = 'modal-car-dot' + (i === idx ? ' active' : '');
+      dot.onclick = () => renderModal(i);
+      dotsEl.appendChild(dot);
+    });
+  }
+
+  // Info
+  document.getElementById('modal-nombre').textContent = label;
+  const v = variantePill(grupo[idx]);
+  document.getElementById('modal-variante').textContent = v ? `📌 ${v}` : '';
+
+  // Todos los talles del grupo
+  const talles = [...new Set(grupo.map(r => r.talle).filter(Boolean))];
+  const tallesRow = document.getElementById('modal-talles-row');
+  const tallesLabel = document.getElementById('modal-talles-label');
+  if (talles.length) {
+    tallesLabel.style.display = 'block';
+    tallesRow.innerHTML = talles.map(t => `<span class="modal-talle-pill">Talle ${t}</span>`).join('');
+  } else {
+    tallesLabel.style.display = 'none';
+    tallesRow.innerHTML = '';
+  }
+
+  // Precios del item actual
+  const pT = fmtPrecio(grupo[idx].p_transf), pK = fmtPrecio(grupo[idx].p_tarjeta);
+  const preciosEl = document.getElementById('modal-precios');
+  if (pT || pK) {
+    preciosEl.innerHTML = `<div class="modal-precios">
+      <div class="modal-precio-box modal-precio-transf"><div class="modal-precio-label">💸 Ef./Transferencia</div><div class="modal-precio-valor">${pT||'—'}</div></div>
+      <div class="modal-precio-box modal-precio-tarjeta"><div class="modal-precio-label">💳 Tarjeta</div><div class="modal-precio-valor">${pK||'—'}</div></div>
+    </div>`;
+  } else {
+    preciosEl.innerHTML = `<div class="modal-precio-sin">Consultá precio por WhatsApp</div>`;
+  }
+
+  const nombreModal = grupo[idx].grupo || label;
+  const colorModal = grupo[idx].color ? `, color ${grupo[idx].color}` : '';
+  const talleModal = grupo[idx].talle ? `, talle ${grupo[idx].talle}` : '';
+  const msgModal = encodeURIComponent(`Hola! Vi este producto en el catálogo: ${nombreModal}${colorModal}${talleModal}. ¿Está disponible?`);
+  document.getElementById('modal-wa').href = `https://wa.me/${WA}?text=${msgModal}`;
+}
+
+function cerrarModal(e) { if(e.target.id==='modal') document.getElementById('modal').classList.remove('open'); }
+
+/* ====== MODO TOGGLE ====== */
+function setModo(modo) {
+  const esVidriera = modo === 'vidriera';
+  document.getElementById('btn-modo-vidriera').classList.toggle('active', esVidriera);
+  document.getElementById('btn-modo-buscar').classList.toggle('active', !esVidriera);
+  document.getElementById('vidriera-wrapper').classList.toggle('visible', esVidriera);
+  document.getElementById('nav-wrapper').classList.toggle('visible', !esVidriera);
+}
+
+/* ====== BUSCADOR ====== */
+
+// Mapa de sinónimos para ampliar resultados
+const SINONIMOS = {
+  'jean': ['jeans','jean','denim'],
+  'buzo': ['buzo','buzos','hoodie'],
+  'campera': ['campera','camperas','abrigo'],
+  'sweater': ['sweater','sweaters','pullover'],
+  'remera': ['remera','remeras'],
+  'pantalon': ['pantalon','pantalones','jogger'],
+  'vestido': ['vestido','vestidos'],
+  'malla': ['malla','mallas','bikini'],
+  'short': ['short','shorts','bermuda','bermudas'],
+  'zapatilla': ['zapatilla','zapatillas'],
+  'media': ['media','medias','calcetines'],
+  'pantufla': ['pantufla','pantuflas'],
+  'nuevo': ['nuevo-ingreso','nuevo','novedad'],
+  'niña': ['ninas','nina','niña'],
+  'nene': ['ninos','nene','niño'],
+  'teens': ['teens','teen','adolescente'],
+  'mujer': ['mujer'],
+  'hombre': ['hombre'],
+  'deportiva': ['deportiva','deporte'],
+  'fiesta': ['fiesta','gala'],
+  'interior': ['interior'],
+};
+
+function normalizarTexto(t) {
+  return (t || '').toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g,'') // quita tildes
+    .replace(/[^a-z0-9\s]/g,'').trim();
+}
+
+function buscarChip(texto) {
+  const input = document.getElementById('buscador-input');
+  input.value = texto;
+  onBuscar(texto);
+  input.focus();
+}
+
+let busqTimer = null;
+function onBuscar(valor) {
+  const clear = document.getElementById('buscador-clear');
+  clear.classList.toggle('visible', valor.length > 0);
+  clearTimeout(busqTimer);
+  if (!valor.trim()) { mostrarResultados(null); return; }
+  busqTimer = setTimeout(() => ejecutarBusqueda(valor), 220);
+}
+
+async function ejecutarBusqueda(query) {
+  const datos = await cargarPlanilla();
+  const q = normalizarTexto(query);
+  const terminos = q.split(/\s+/).filter(Boolean);
+
+  // Detectar búsqueda por talle: "talle 44", "44", "M", "XL", etc.
+  const talleMatch = query.match(/(?:talle\s*)?(\d{2,3}|xs|s\b|m\b|xl|xxl|xxxl)/i);
+  const buscarTalle = talleMatch ? talleMatch[1].toLowerCase() : null;
+
+  // Expandir términos con sinónimos
+  const expandidos = new Set(terminos);
+  terminos.forEach(t => {
+    Object.entries(SINONIMOS).forEach(([k, vals]) => {
+      if (normalizarTexto(k).includes(t) || t.includes(normalizarTexto(k))) {
+        vals.forEach(v => expandidos.add(normalizarTexto(v)));
+      }
+    });
+  });
+
+  const grupos = agrupar(datos);
+  const resultados = grupos.filter(grupo => {
+    const r = grupo[0];
+    const camposTexto = normalizarTexto([
+      r.categoria, r.grupo, r.color,
+      catLabels[r.categoria] || ''
+    ].join(' '));
+
+    // Match por talle: busca en todos los items del grupo
+    if (buscarTalle) {
+      const tallesGrupo = grupo.map(i => normalizarTexto(i.talle)).join(' ');
+      if (tallesGrupo.includes(buscarTalle)) return true;
+    }
+
+    // Match por texto expandido
+    return [...expandidos].some(t => camposTexto.includes(t));
+  });
+
+  mostrarResultados(resultados, query);
+}
+
+function mostrarResultados(resultados, query) {
+  const wrapper = document.getElementById('busq-wrapper');
+  const vidWrapper = document.getElementById('vidriera-wrapper');
+  const modoBar = document.querySelector('.modo-bar');
+  const navWrapper = document.getElementById('nav-wrapper');
+
+  if (!resultados) {
+    // Sin búsqueda activa — restaurar vista normal
+    wrapper.classList.remove('visible');
+    modoBar.style.display = '';
+    // Restaurar el modo que corresponde
+    const esVidriera = document.getElementById('btn-modo-vidriera').classList.contains('active');
+    vidWrapper.classList.toggle('visible', esVidriera);
+    navWrapper.classList.toggle('visible', !esVidriera);
+    return;
+  }
+
+  // Con búsqueda activa — ocultar todo lo demás
+  vidWrapper.classList.remove('visible');
+  navWrapper.classList.remove('visible');
+  modoBar.style.display = 'none';
+  wrapper.classList.add('visible');
+
+  const count = document.getElementById('busq-count');
+  const grid = document.getElementById('busq-grid');
+
+  if (!resultados.length) {
+    count.innerHTML = `Sin resultados para <strong>"${query}"</strong>`;
+    grid.innerHTML = `<div class="vacio" style="grid-column:1/-1;padding:2rem;">
+      No encontramos prendas para esa búsqueda.<br>
+      <span style="font-size:11px;color:#1a5c2a;margin-top:6px;display:block;">Probá con otra palabra o consultanos por WhatsApp 💬</span>
+    </div>`;
+    return;
+  }
+
+  count.innerHTML = `<strong>${resultados.length}</strong> resultado${resultados.length !== 1 ? 's' : ''} para <strong>"${query}"</strong>`;
+  grid.innerHTML = resultados.map(g => {
+    const lbl = catLabels[g[0].categoria] || g[0].categoria;
+    const esNuevo = g[0].categoria === 'nuevo-ingreso';
+    return cardHTML(g, lbl, esNuevo);
+  }).join('');
+}
+
+function limpiarBusqueda() {
+  const input = document.getElementById('buscador-input');
+  input.value = '';
+  document.getElementById('buscador-clear').classList.remove('visible');
+  mostrarResultados(null);
+}
+
+/* ====== VIDRIERA POR SECCIONES ====== */
+
+// Prefijos de categoría por sección
+const SECCIONES_VIDRIERA = {
+  nuevo:       { cats: ['nuevo-ingreso'],                                        label: 'Nuevo ingreso', esNuevo: true },
+  consultados: { cats: ['mujer-jeans','hombre-jeans','mujer-buzos','hombre-buzos','teens-buzos'], label: 'Más consultados', esNuevo: false },
+  mujer:       { cats: null, prefijo: 'mujer-',                                  label: 'Mujer', esNuevo: false },
+  hombre:      { cats: null, prefijo: 'hombre-',                                 label: 'Hombre', esNuevo: false },
+  ninos:       { cats: null, prefijo: ['ninos-','ninas-','teens-'],               label: 'Niños y Teens', esNuevo: false },
+  promos:      { cats: ['promo','oportunidad','liquidacion'],                     label: 'Oportunidades', esNuevo: false },
+};
+
+function filtrarPorSeccion(datos, sec) {
+  const cfg = SECCIONES_VIDRIERA[sec];
+  if (cfg.cats) {
+    return datos.filter(r => cfg.cats.some(c => r.categoria === c));
+  }
+  const prefijos = Array.isArray(cfg.prefijo) ? cfg.prefijo : [cfg.prefijo];
+  return datos.filter(r => prefijos.some(p => r.categoria && r.categoria.startsWith(p)));
+}
+
+function renderSeccion(gridId, grupos, label, esNuevo, vacio) {
+  const el = document.getElementById(gridId);
+  if (!el) return;
+  if (!grupos.length) {
+    el.innerHTML = `<div class="vsec-vacio">${vacio || 'Próximamente'}</div>`;
+    return;
+  }
+  // Máximo 12 productos por sección para no saturar
+  const visibles = grupos.slice(0, 12);
+  el.innerHTML = visibles.map(g => cardHTML(g, label, esNuevo)).join('');
+}
+
+async function cargarVidrieras() {
+  const datos = await cargarPlanilla();
+
+  // NUEVO INGRESO
+  const nuevoGrupos = agrupar(filtrarPorSeccion(datos, 'nuevo'));
+  renderSeccion('grid-nuevo', nuevoGrupos, 'Nuevo ingreso', true, 'Próximamente novedades ✨');
+
+  // MÁS CONSULTADOS — mezcla aleatoria de las cats estrella
+  const consultGrupos = agrupar(filtrarPorSeccion(datos, 'consultados'));
+  const shuffled = [...consultGrupos].sort(() => Math.random() - 0.5);
+  renderSeccion('grid-consultados', shuffled, 'Más consultados', false, 'Pronto habrá favoritos destacados');
+
+  // MUJER
+  const mujerGrupos = agrupar(filtrarPorSeccion(datos, 'mujer')).sort(() => Math.random() - 0.5);
+  renderSeccion('grid-mujer', mujerGrupos, 'Mujer', false, 'Próximamente');
+
+  // HOMBRE
+  const hombreGrupos = agrupar(filtrarPorSeccion(datos, 'hombre')).sort(() => Math.random() - 0.5);
+  renderSeccion('grid-hombre', hombreGrupos, 'Hombre', false, 'Próximamente');
+
+  // NIÑOS (ninos + ninas + teens)
+  const ninosGrupos = agrupar(filtrarPorSeccion(datos, 'ninos')).sort(() => Math.random() - 0.5);
+  renderSeccion('grid-ninos', ninosGrupos, 'Niños y Teens', false, 'Próximamente');
+
+  // OPORTUNIDADES
+  const promosGrupos = agrupar(filtrarPorSeccion(datos, 'promos'));
+  if (!promosGrupos.length) {
+    document.getElementById('vsec-promos').style.display = 'none'; // ocultar si no hay promos
+  } else {
+    renderSeccion('grid-promos', promosGrupos, 'Oportunidades', false, '');
+  }
+}
+
+/* ====== MODO BUSCAR ====== */
+function setSeccion(sec, btn) {
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  document.querySelectorAll('.submenu').forEach(s => s.classList.remove('visible'));
+  document.querySelectorAll('.submenu2').forEach(s => s.classList.remove('visible'));
+  document.querySelectorAll('.sub-btn,.sub2-btn').forEach(b => b.classList.remove('active'));
+  const sub = document.getElementById('sub-' + sec);
+  if(sub) sub.classList.add('visible');
+  document.getElementById('breadcrumb').style.display = 'none';
+  if(sec === 'nuevo') mostrarNuevoBuscar();
+  else document.getElementById('contenido').innerHTML = '<div class="instruccion-buscar"><span class="flecha">☝️</span>Elegí una subcategoría arriba</div>';
+}
+
+function setInvierno(sec, btn) {
+  document.querySelectorAll('.sub-btn').forEach(b => b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  document.querySelectorAll('.submenu2').forEach(s => s.classList.remove('visible'));
+  document.querySelectorAll('.sub2-btn').forEach(b => b.classList.remove('active'));
+  const sub2 = document.getElementById('sub2-' + sec);
+  if(sub2) sub2.classList.add('visible');
+  document.getElementById('breadcrumb').style.display = 'none';
+  document.getElementById('contenido').innerHTML = '<div class="instruccion-buscar"><span class="flecha">☝️</span>Elegí un subrubro arriba</div>';
+}
+
+function setTeensInvierno(btn) {
+  document.querySelectorAll('.sub-btn').forEach(b => b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  document.querySelectorAll('.submenu2').forEach(s => s.classList.remove('visible'));
+  document.getElementById('sub2-teens-invierno').classList.add('visible');
+  document.getElementById('breadcrumb').style.display = 'none';
+  document.getElementById('contenido').innerHTML = '<div class="instruccion-buscar"><span class="flecha">☝️</span>Elegí un subrubro arriba</div>';
+}
+
+function setTeensVerano(btn) {
+  document.querySelectorAll('.sub-btn').forEach(b => b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  document.querySelectorAll('.submenu2').forEach(s => s.classList.remove('visible'));
+  document.getElementById('sub2-teens-verano').classList.add('visible');
+  document.getElementById('breadcrumb').style.display = 'none';
+  document.getElementById('contenido').innerHTML = '<div class="instruccion-buscar"><span class="flecha">☝️</span>Elegí un subrubro arriba</div>';
+}
+
+async function setRubro(rubro, btn) {
+  document.querySelectorAll('.sub2-btn,.sub-btn').forEach(b => b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  const categoria = rubrosInfo[rubro];
+  if (!categoria) return;
+  const label = btn ? btn.textContent : rubro;
+  document.getElementById('breadcrumb').style.display = 'block';
+  document.getElementById('bc-text').textContent = label;
+  document.getElementById('contenido').innerHTML = `<div class="loading"><div class="loading-spinner"></div><br>Cargando...</div>`;
+  const grupos = await getGrupos(categoria);
+  renderGruposBuscar(grupos, label);
+}
+
+function renderGruposBuscar(grupos, label) {
+  if (!grupos.length) {
+    document.getElementById('contenido').innerHTML = `<div class="vacio">Próximamente.<br><span style="font-size:11px;color:#1a5c2a;">Consultanos por WhatsApp para ver disponibilidad.</span></div>`;
+    return;
+  }
+  let html = '<div class="ap-grid">';
+  html += grupos.map(g => cardHTML(g, label, false)).join('');
+  html += '</div>';
+  document.getElementById('contenido').innerHTML = html;
+}
+
+async function mostrarNuevoBuscar() {
+  document.getElementById('contenido').innerHTML = `<div class="loading"><div class="loading-spinner"></div><br>Cargando novedades...</div>`;
+  const grupos = await getGrupos('nuevo-ingreso');
+  if (!grupos.length) { document.getElementById('contenido').innerHTML = '<div class="vacio">No hay ingresos nuevos por el momento.</div>'; return; }
+  let html = '<div class="ap-grid">';
+  html += grupos.map(g => cardHTML(g, 'Nuevo ingreso', true)).join('');
+  html += '</div>';
+  document.getElementById('contenido').innerHTML = html;
+}
+
+function abrirWA(msg) { window.open('https://wa.me/'+WA+'?text='+encodeURIComponent(msg),'_blank'); }
+
+/* ====== HERO BUTTONS ====== */
+function irANuevoIngreso() {
+  setModo('vidriera');
+  setTimeout(() => {
+    const el = document.getElementById('vsec-nuevo');
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 100);
+}
+function irABuscar() {
+  setModo('buscar');
+  setTimeout(() => {
+    const el = document.getElementById('nav-wrapper');
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 100);
+}
+
+// Arrancar
+cargarVidrieras();
+</script>
+</body>
+</html>
